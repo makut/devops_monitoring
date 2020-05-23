@@ -19,16 +19,10 @@ services:
         networks:
             - frontend
             - backend
-        volumes:
-            - my_folder:/folder2
     worker:
         build: .
         networks:
             - backend
-        volumes:
-            - my_folder:/folder
 networks:
     frontend:
     backend:
-volumes:
-    my_folder:

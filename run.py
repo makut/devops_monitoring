@@ -1,4 +1,5 @@
 import json
+import time
 import logging
 import graphyte
 import requests
@@ -37,15 +38,16 @@ GRAPHITE_HOST = 'graphite'
 
 def send_metrics(radiation, info_type):
     sender = graphyte.Sender(GRAPHITE_HOST, prefix='radiation')
-    for r in radiation:
-        sender.send(info_type, r[0], timestamp=r[1] - 10000)
+    for i, r in enumerate(radiation):
+        sender.send(info_type, r[0], timestamp=r[1])
 
 
 def main():
     current_radiation = get_current_radiation()
     forecast = get_forecast()
+    time.sleep(5)
     logging.info(forecast[:10])
-    send_metrics([current_radiation[0]], 'real')
+    send_metrics(current_radiation, 'real')
     send_metrics(forecast, 'forecast')
 
 
